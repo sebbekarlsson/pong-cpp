@@ -6,17 +6,9 @@
 
 #IncludeRegexTransform: 
 
-/home/ianertson/workspace/cpp-game/src/Ball.cpp
-
-/home/ianertson/workspace/cpp-game/src/Enemy.cpp
-
-/home/ianertson/workspace/cpp-game/src/Game.cpp
-
-/home/ianertson/workspace/cpp-game/src/GameObject.cpp
-
-/home/ianertson/workspace/cpp-game/src/Pad.cpp
-
 /home/ianertson/workspace/cpp-game/src/main.cpp
 stdio.h
+-
+SDL2/SDL.h
 -
 
