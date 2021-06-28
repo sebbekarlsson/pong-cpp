@@ -17,7 +17,7 @@ int main(int argc, char* argv[])
   win = SDL_CreateWindow("Pong", 0, 0, 640, 480, 0);
 
   // create renderer
-  renderer = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED | AG_MPANE_FRAMES);
+  renderer = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
 
   while (true) {
 
