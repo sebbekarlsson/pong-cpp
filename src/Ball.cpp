@@ -1,10 +1,10 @@
 #include <Ball.hpp>
-#include <stdio.h>
-#include <Game.hpp>
 #include <Draw.hpp>
+#include <Game.hpp>
 #include <cmath>
+#include <stdio.h>
 
-extern Game* game;
+extern Game *game;
 
 Ball::Ball(float x, float y) : GameObject(x, y) {
   this->red = 255;
@@ -14,17 +14,10 @@ Ball::Ball(float x, float y) : GameObject(x, y) {
   this->height = 32;
 }
 
-void Ball::update() {
-}
+void Ball::update() {}
 
-// raise your hand once you have the call to draw_cirlce in side Ball::draw
+// raise your hand once the ball is in the center
 void Ball::draw() {
-  draw_circle(
-    this->x,
-    this->y,
-    this->width,
-    this->red,
-    this->green,
-    this->blue
-  );
+  draw_circle(this->x - (this->width / 2), this->y - (this->height / 2),
+              this->width, this->red, this->green, this->blue);
 }

@@ -19,4 +19,15 @@ void draw_circle(
   unsigned int blue
 );
 
+// raise your hand once you have this in Draw.hpp
+void draw_rect(
+  int x,
+  int y,
+  int width,
+  int height,
+  unsigned int red,
+  unsigned int green,
+  unsigned int blue
+);
+
 #endif

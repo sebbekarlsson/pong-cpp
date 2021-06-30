@@ -1,16 +1,16 @@
-#include <stdio.h>
-#include <SDL2/SDL.h>
-#include <Game.hpp>
 #include <Ball.hpp>
+#include <Enemy.hpp>
+#include <Game.hpp>
+#include <Player.hpp>
+#include <SDL2/SDL.h>
+#include <stdio.h>
 
 #define WINDOW_WIDTH 640
 #define WINDOW_HEIGHT 480
 
-Game* game;
+Game *game;
 
-
-int main(int argc, char* argv[])
-{
+int main(int argc, char *argv[]) {
   SDL_Window *win = NULL;
   SDL_Renderer *renderer = NULL;
 
@@ -25,11 +25,16 @@ int main(int argc, char* argv[])
   // create renderer
   renderer = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
 
-
   game = new Game(WINDOW_WIDTH, WINDOW_HEIGHT, renderer);
-  Ball* ball = new Ball(128, 128);
 
+  Ball *ball = new Ball(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
   game->add(ball);
+
+  Player *player = new Player(WINDOW_WIDTH - 32, WINDOW_HEIGHT / 2);
+  game->add(player);
+
+  Enemy *enemy = new Enemy(32, WINDOW_HEIGHT / 2);
+  game->add(enemy);
 
   while (true) {
     SDL_RenderClear(renderer);
@@ -46,7 +51,6 @@ int main(int argc, char* argv[])
 
     // update the graphics
     SDL_RenderPresent(renderer);
-
   }
 
   // destroying the window and the reference to the renderer
@@ -55,7 +59,6 @@ int main(int argc, char* argv[])
 
   return 0;
 }
-
 
 // cmake . -G "Unix Makefiles"
 // make
