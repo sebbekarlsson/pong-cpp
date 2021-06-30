@@ -17,9 +17,14 @@ Ball::Ball(float x, float y) : GameObject(x, y) {
 void Ball::update() {
 }
 
-float to_radians(float degrees) {
-  return degrees / 180.0f * M_PI;
-}
-
+// raise your hand once you have the call to draw_cirlce in side Ball::draw
 void Ball::draw() {
-  }
+  draw_circle(
+    this->x,
+    this->y,
+    this->width,
+    this->red,
+    this->green,
+    this->blue
+  );
+}
