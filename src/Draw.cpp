@@ -5,9 +5,6 @@
 
 extern Game *game;
 
-// raise your hand once the circle is
-// working again
-
 void draw_pixel(int x, int y, unsigned int red, unsigned int green,
                 unsigned int blue) {
   SDL_Renderer *renderer = game->get_renderer();
@@ -23,7 +20,6 @@ void draw_pixel(int x, int y, unsigned int red, unsigned int green,
   );
 }
 
-// raise your hand once you have this function in Draw.cpp
 void draw_circle(int x, int y, int dia, unsigned int red, unsigned int green,
                  unsigned int blue) {
   float centerx = x + (dia / 2);

@@ -12,7 +12,7 @@ add_executable(pong src/main.cpp)
 # your path
 # include_directories(libraries/include)
 # target_link_directories(pong PRIVATE libraries/lib)
-# arget_link_directories(pong PRIVATE libraries/bin)
+# target_link_directories(pong PRIVATE libraries/bin)
 
 # tell the compiler that we want to link and use the SDL2
 # library.
@@ -28,5 +28,7 @@ target_sources(
   src/Pad.cpp
   src/Draw.cpp
   src/Math.cpp
+  src/Keyboard.cpp
+  src/collision.cpp
   src/main.cpp
 )

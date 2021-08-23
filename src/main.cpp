@@ -25,7 +25,9 @@ int main(int argc, char *argv[]) {
   // create renderer
   renderer = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
 
-  game = new Game(WINDOW_WIDTH, WINDOW_HEIGHT, renderer);
+  Keyboard* keyboard = new Keyboard();
+
+  game = new Game(WINDOW_WIDTH, WINDOW_HEIGHT, renderer, keyboard);
 
   Ball *ball = new Ball(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
   game->add(ball);
@@ -44,6 +46,15 @@ int main(int argc, char *argv[]) {
     if (SDL_PollEvent(&e)) {
       if (e.type == SDL_QUIT)
         break;
+
+      switch (e.type) {
+        case SDL_KEYDOWN: {
+          keyboard->set_key(e.key.keysym.scancode, 1);
+        }; break;
+        case SDL_KEYUP: {
+          keyboard->set_key(e.key.keysym.scancode, 0);
+        }; break;
+      }
     }
 
     game->update();
