@@ -4,6 +4,8 @@
 #include <cmath>
 #include <stdio.h>
 #include <Math.hpp>
+#include <Pad.hpp>
+#include <collision.hpp>
 
 extern Game *game;
 
@@ -16,6 +18,7 @@ Ball::Ball(float x, float y) : GameObject(x, y) {
   this->direction = random_range(0, 360);
   this->dx = 1;
   this->dy = 1;
+  set_speed(0.2f);
 }
 
 void Ball::move(float dx, float dy, float speed) {
@@ -53,12 +56,50 @@ void Ball::move(float dx, float dy, float speed) {
     return;
   }
 
+
+  std::vector<GameObject*> objects = game->get_game_objects();
+  std::vector<GameObject*>::iterator it;
+
+  for (it = objects.begin(); it != objects.end(); it++){
+    GameObject* obj = *it;
+
+    if (dynamic_cast<Pad*>(obj) == nullptr)
+      continue;
+
+
+    // pad rect
+    Rectangle rect1;
+    rect1.x = obj->get_x() - obj->get_width() / 2;
+    rect1.y = obj->get_y() - obj->get_height() / 2;
+    rect1.width = obj->get_width();
+    rect1.height = obj->get_height();
+
+    // ball rect
+    Rectangle rect2;
+    rect2.x = next_x - this->width / 2;
+    rect2.y = next_y - this->height / 2;
+    rect2.width = this->width;
+    rect2.height = this->height;
+
+    float angle = atan2(
+      rect2.y - (rect1.y),
+      rect2.x - (rect1.x)
+    ) * 180 / M_PI;
+
+    if (rect_intersects(rect1, rect2)) {
+      this->direction = -angle;
+      return;
+    }
+
+    // we know that obj is a pad.
+  }
+
+
   this->x += dx;
   this->y += dy;
 }
 
 void Ball::update() {
-  float speed = 0.1f;
   float rad = to_radians(this->direction);
 
   float next_x = std::cos(rad) * speed * this->dx;

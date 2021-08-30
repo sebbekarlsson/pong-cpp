@@ -7,6 +7,13 @@ class GameObject {
     virtual void update() = 0;
     virtual void draw() = 0;
 
+    float get_x();
+    float get_y();
+    float get_width();
+    float get_height();
+    float get_speed();
+    void set_speed(float speed);
+
   protected:
     float x;
     float y;
@@ -14,5 +21,6 @@ class GameObject {
     float dy;
     float width;
     float height;
+    float speed;
 };
 #endif

@@ -12,7 +12,7 @@
 Game *game;
 
 int main(int argc, char *argv[]) {
-  srand (time(NULL));
+  srand ((float)time(NULL));
 
   SDL_Window *win = NULL;
   SDL_Renderer *renderer = NULL;

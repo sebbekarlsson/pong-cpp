@@ -3,6 +3,10 @@
 Game::Game(int width, int height, SDL_Renderer *renderer, Keyboard *keyboard)
     : width(width), height(height), renderer(renderer), keyboard(keyboard) {}
 
+std::vector<GameObject*> Game::get_game_objects() {
+  return this->objects;
+}
+
 int Game::get_width() { return this->width; }
 
 int Game::get_height() { return this->height; }
