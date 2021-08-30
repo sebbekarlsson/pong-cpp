@@ -4,6 +4,7 @@
 #include <Player.hpp>
 #include <SDL2/SDL.h>
 #include <stdio.h>
+#include <time.h>
 
 #define WINDOW_WIDTH 640
 #define WINDOW_HEIGHT 480
@@ -11,6 +12,8 @@
 Game *game;
 
 int main(int argc, char *argv[]) {
+  srand (time(NULL));
+
   SDL_Window *win = NULL;
   SDL_Renderer *renderer = NULL;
 
@@ -25,7 +28,7 @@ int main(int argc, char *argv[]) {
   // create renderer
   renderer = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
 
-  Keyboard* keyboard = new Keyboard();
+  Keyboard *keyboard = new Keyboard();
 
   game = new Game(WINDOW_WIDTH, WINDOW_HEIGHT, renderer, keyboard);
 
@@ -48,12 +51,12 @@ int main(int argc, char *argv[]) {
         break;
 
       switch (e.type) {
-        case SDL_KEYDOWN: {
-          keyboard->set_key(e.key.keysym.scancode, 1);
-        }; break;
-        case SDL_KEYUP: {
-          keyboard->set_key(e.key.keysym.scancode, 0);
-        }; break;
+      case SDL_KEYDOWN: {
+        keyboard->set_key(e.key.keysym.scancode, 1);
+      }; break;
+      case SDL_KEYUP: {
+        keyboard->set_key(e.key.keysym.scancode, 0);
+      }; break;
       }
     }
 

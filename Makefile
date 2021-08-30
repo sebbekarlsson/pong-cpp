@@ -345,6 +345,30 @@ src/Player.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pong.dir/build.make CMakeFiles/pong.dir/src/Player.cpp.s
 .PHONY : src/Player.cpp.s
 
+src/collision.o: src/collision.cpp.o
+.PHONY : src/collision.o
+
+# target to build an object file
+src/collision.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pong.dir/build.make CMakeFiles/pong.dir/src/collision.cpp.o
+.PHONY : src/collision.cpp.o
+
+src/collision.i: src/collision.cpp.i
+.PHONY : src/collision.i
+
+# target to preprocess a source file
+src/collision.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pong.dir/build.make CMakeFiles/pong.dir/src/collision.cpp.i
+.PHONY : src/collision.cpp.i
+
+src/collision.s: src/collision.cpp.s
+.PHONY : src/collision.s
+
+# target to generate assembly for a file
+src/collision.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pong.dir/build.make CMakeFiles/pong.dir/src/collision.cpp.s
+.PHONY : src/collision.cpp.s
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -405,6 +429,9 @@ help:
 	@echo "... src/Player.o"
 	@echo "... src/Player.i"
 	@echo "... src/Player.s"
+	@echo "... src/collision.o"
+	@echo "... src/collision.i"
+	@echo "... src/collision.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

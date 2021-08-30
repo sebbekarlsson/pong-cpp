@@ -1,23 +1,13 @@
 #include <Game.hpp>
 
-Game::Game(int width, int height, SDL_Renderer *renderer, Keyboard* keyboard)
-  : width(width),
-    height(height),
-    renderer(renderer),
-    keyboard(keyboard) {
-}
+Game::Game(int width, int height, SDL_Renderer *renderer, Keyboard *keyboard)
+    : width(width), height(height), renderer(renderer), keyboard(keyboard) {}
 
-int Game::get_width() {
-  return this->width;
-}
+int Game::get_width() { return this->width; }
 
-int Game::get_height() {
-  return this->height;
-}
+int Game::get_height() { return this->height; }
 
-Keyboard* Game::get_keyboard() {
-  return this->keyboard;
-}
+Keyboard *Game::get_keyboard() { return this->keyboard; }
 
 SDL_Renderer *Game::get_renderer() { return this->renderer; }
 
