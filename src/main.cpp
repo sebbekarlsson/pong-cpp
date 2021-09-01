@@ -12,7 +12,7 @@
 Game *game;
 
 int main(int argc, char *argv[]) {
-  srand ((float)time(NULL));
+  srand (time(NULL));
 
   SDL_Window *win = NULL;
   SDL_Renderer *renderer = NULL;
@@ -35,7 +35,7 @@ int main(int argc, char *argv[]) {
   Ball *ball = new Ball(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
   game->add(ball);
 
-  Player *player = new Player(WINDOW_WIDTH - 32, WINDOW_HEIGHT / 2);
+  Player *player = new Player(WINDOW_WIDTH - (32*2), WINDOW_HEIGHT / 2);
   game->add(player);
 
   Enemy *enemy = new Enemy(32, WINDOW_HEIGHT / 2);

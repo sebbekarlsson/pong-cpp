@@ -13,6 +13,7 @@ class GameObject {
     float get_height();
     float get_speed();
     void set_speed(float speed);
+    void push(float direction, float speed);
 
   protected:
     float x;

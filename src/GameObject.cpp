@@ -1,4 +1,6 @@
 #include <GameObject.hpp>
+#include <cmath>
+#include <Math.hpp>
 
 GameObject::GameObject(float x, float y)
   : x(x),
@@ -26,3 +28,9 @@ float GameObject::get_height() {
 
 float GameObject::get_speed() { return this->speed; }
 void GameObject::set_speed(float speed) { this->speed = speed; }
+
+void GameObject::push(float direction, float speed) {
+  float rad = to_radians(direction);
+  this->dx += std::cos(rad) * speed;
+  this->dy += std::sin(rad) * speed;
+}

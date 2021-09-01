@@ -14,7 +14,7 @@ void Player::update() {
   // move up
   if (keyboard->is_key_pressed(SDL_SCANCODE_UP) &&
       !is_rectangle_colliding({this->x, this->y, this->width, this->height},
-                              {this->x, 0})) {
+                              {this->x, -this->height})) {
     this->y -= speed;
   }
 

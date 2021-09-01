@@ -6,6 +6,7 @@
 #include <Math.hpp>
 #include <Pad.hpp>
 #include <collision.hpp>
+#include <sys/param.h>
 
 extern Game *game;
 
@@ -16,15 +17,16 @@ Ball::Ball(float x, float y) : GameObject(x, y) {
   this->width = 32;
   this->height = 32;
   this->direction = random_range(0, 360);
-  this->dx = 1;
-  this->dy = 1;
-  set_speed(0.2f);
+  this->dx = 0;
+  this->dy = 0;
+  set_speed(0.3f);
+  this->push(this->direction, speed);
 }
 
-void Ball::move(float dx, float dy, float speed) {
-  if (dx != 0 && dy != 0) {
-    move(dx, 0, speed);
-    move(0, dy, speed);
+void Ball::move(float xa, float ya, float speed) {
+  if (xa != 0 && ya != 0) {
+    move(xa, 0, speed);
+    move(0, ya, speed);
     return;
   }
 
@@ -33,26 +35,30 @@ void Ball::move(float dx, float dy, float speed) {
   float game_w = game->get_width();
   float game_h = game->get_height();
 
-  float next_x = this->x + dx;
-  float next_y = this->y + dy;
+  float next_x = this->x + xa;
+  float next_y = this->y + ya;
 
-  if (next_x + (w/2) > game_w) {
-    this->dx = -1 * this->dx;
+  if (next_x + (w) > game_w) {
+    this->dx = 0;
+    this->push(-180, speed);
     return;
   }
 
-  if (next_x - (w/2) < 0) {
-    this->dx = -1 * this->dx;
+  if (next_x < 0) {
+    this->dx = 0;
+    this->push(0, speed/2);
     return;
   }
 
-  if (next_y + (h/2) > game_h) {
-    this->dy = -1 * this->dy;
+  if (next_y + (h) > game_h) {
+    this->dy = 0;
+    this->push(270, speed/2);
     return;
   }
 
-  if (next_y - (h/2) < 0) {
-    this->dy = -1 * this->dy;
+  if (next_y < 0) {
+    this->dy = 0;
+    this->push(90, speed/2);
     return;
   }
 
@@ -60,55 +66,64 @@ void Ball::move(float dx, float dy, float speed) {
   std::vector<GameObject*> objects = game->get_game_objects();
   std::vector<GameObject*>::iterator it;
 
-  for (it = objects.begin(); it != objects.end(); it++){
-    GameObject* obj = *it;
 
-    if (dynamic_cast<Pad*>(obj) == nullptr)
-      continue;
+  CollisionPoint point;
+
+  if (get_collision_point(game, this, xa, ya, &point)) {
+    Vec2d v = point.point;
+    GameObject* obj = point.obj;
+    float cx = this->x + this->width/2;
+    float cy = this->y + this->height / 2;
+    float cx2 = obj->get_x() + obj->get_width() / 2;
+    float cy2 = obj->get_y() + obj->get_height() / 2;
+
+    bool left = cx < game->get_height()/2;
+    bool right = cx > game->get_width()/2;
+
+    this->dx = 0;
+    this->dy = 0;
 
 
-    // pad rect
-    Rectangle rect1;
-    rect1.x = obj->get_x() - obj->get_width() / 2;
-    rect1.y = obj->get_y() - obj->get_height() / 2;
-    rect1.width = obj->get_width();
-    rect1.height = obj->get_height();
+    float angle = atan2(cy - cy2, cx - cx2) * 180 / M_PI;
 
-    // ball rect
-    Rectangle rect2;
-    rect2.x = next_x - this->width / 2;
-    rect2.y = next_y - this->height / 2;
-    rect2.width = this->width;
-    rect2.height = this->height;
+    if (right)
+      this->x += v.x - get_width();
+    else
+      this->x += v.x;
 
-    float angle = atan2(
-      rect2.y - (rect1.y),
-      rect2.x - (rect1.x)
-    ) * 180 / M_PI;
+    this->push(-angle, speed);
 
-    if (rect_intersects(rect1, rect2)) {
-      this->direction = -angle;
-      return;
-    }
-
-    // we know that obj is a pad.
+    return;
   }
 
-
-  this->x += dx;
-  this->y += dy;
+  this->x += xa;
+  this->y += ya;
 }
 
 void Ball::update() {
-  float rad = to_radians(this->direction);
+  float friction = 0.00001f;
 
-  float next_x = std::cos(rad) * speed * this->dx;
-  float next_y = std::sin(rad) * speed * this->dy;
+  if (this->dx > 0 ) {
+      this->dx = MAX(0, this->dx - friction);
+  }
 
-  move(next_x, next_y, speed);
+  if (this->dx < 0 ) {
+      this->dx = MIN(0, this->dx + friction);
+  }
+
+  if (this->dy > 0 ) {
+      this->dy = MAX(0, this->dy - friction);
+  }
+
+  if (this->dy < 0 ) {
+      this->dy = MIN(0, this->dy + friction);
+  }
+
+
+  move(this->dx, this->dy, speed);
 }
 
 void Ball::draw() {
-  draw_circle(this->x - (this->width / 2), this->y - (this->height / 2),
+  draw_circle(this->x, this->y,
               this->width, this->red, this->green, this->blue);
 }

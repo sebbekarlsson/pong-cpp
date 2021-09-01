@@ -11,6 +11,6 @@ Pad::Pad(float x, float y) : GameObject(x, y) {
 }
 
 void Pad::draw_default() {
-  draw_rect(this->x - (this->width / 2), this->y - (this->height / 2),
+  draw_rect(this->x, this->y,
             this->width, this->height, this->red, this->green, this->blue);
 }
