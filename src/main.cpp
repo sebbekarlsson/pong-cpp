@@ -31,9 +31,7 @@ int main(int argc, char *argv[]) {
   Keyboard *keyboard = new Keyboard();
 
   game = new Game(WINDOW_WIDTH, WINDOW_HEIGHT, renderer, keyboard);
-
-  Ball *ball = new Ball(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
-  game->add(ball);
+  game->reset_ball();
 
   Player *player = new Player(WINDOW_WIDTH - (32*2), WINDOW_HEIGHT / 2);
   game->add(player);

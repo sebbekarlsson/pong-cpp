@@ -19,7 +19,7 @@ Ball::Ball(float x, float y) : GameObject(x, y) {
   this->direction = random_range(0, 360);
   this->dx = 0;
   this->dy = 0;
-  set_speed(0.3f);
+  this->speed = 0.3f;
   this->push(this->direction, speed);
 }
 
@@ -38,15 +38,19 @@ void Ball::move(float xa, float ya, float speed) {
   float next_x = this->x + xa;
   float next_y = this->y + ya;
 
+  // right wall
   if (next_x + (w) > game_w) {
     this->dx = 0;
     this->push(-180, speed);
+    game->reset(WIN_ENEMY);
     return;
   }
 
+  // left wall
   if (next_x < 0) {
     this->dx = 0;
     this->push(0, speed/2);
+    game->reset(WIN_PLAYER);
     return;
   }
 
