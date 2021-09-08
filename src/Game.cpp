@@ -9,7 +9,10 @@ Game::Game(int width, int height, SDL_Renderer *renderer, Keyboard *keyboard)
     renderer(renderer),
     keyboard(keyboard),
     is_locked(false),
-    lock_timer(LOCK_TIME), player_score(0), enemy_score(0) {}
+    lock_timer(LOCK_TIME), player_score(0), enemy_score(0) {
+  this->font_enemy = 0;
+  this->font_player = 0;
+}
 
 std::vector<GameObject*> Game::get_game_objects() {
   return this->objects;
@@ -38,12 +41,21 @@ void Game::unlock() {
 }
 
 void Game::reset(WinType winner) {
+  char tmpstr[256];
+
   if (winner == WIN_PLAYER) {
     printf("Player won!\n");
     this->player_score += 1;
+
+    sprintf(tmpstr, "%d", this->player_score);
+    this->font_player->set_text(tmpstr, {255, 255, 255, 255});
+
   } else {
     printf("Enemy won!\n");
     this->enemy_score += 1;
+
+    sprintf(tmpstr, "%d", this->enemy_score);
+    this->font_enemy->set_text(tmpstr, {255, 255, 255, 255});
   }
   printf("Player: %d\n", this->player_score);
   printf("Enemy: %d\n", this->enemy_score);
@@ -112,8 +124,29 @@ void Game::update() {
  * Loop through all GameObjects and
  * call their draw method. */
 void Game::draw() {
+  if (this->font_enemy == 0) {
+    this->font_enemy = new Font("./assets/VT323-Regular.ttf", "5", 48, {255, 255, 255, 255});
+  }
+  if (this->font_player == 0) {
+    this->font_player = new Font("./assets/VT323-Regular.ttf", "2", 48, {255, 255, 255, 255});
+  }
+
+  // draw enemy score
+  this->font_enemy->draw(
+    32,
+    32
+  );
+
+  // draw player score
+  this->font_player->draw(
+    this->get_width() - 64,
+    32
+  );
+
   for (std::vector<GameObject *>::iterator it = objects.begin();
        it != objects.end(); it++) {
     (*it)->draw();
   }
+
+
 }

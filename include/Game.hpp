@@ -4,6 +4,7 @@
 #include <GameObject.hpp>
 #include <SDL2/SDL.h>
 #include <Keyboard.hpp>
+#include <Font.hpp>
 
 typedef enum {
     WIN_PLAYER,
@@ -31,10 +32,6 @@ class Game {
 
     std::vector<GameObject*> get_game_objects();
 
-
-
-
-
     SDL_Renderer* get_renderer();
 
   private:
@@ -47,6 +44,8 @@ class Game {
     bool is_locked;
     int player_score;
     int enemy_score;
+    Font* font_enemy;
+    Font* font_player;
 };
 
 #endif

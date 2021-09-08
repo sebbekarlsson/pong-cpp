@@ -5,8 +5,10 @@ project(pong)
 
 include_directories(include)
 
+add_compile_options(-g -Wall)
 
 add_executable(pong src/main.cpp)
+
 # tell the compiler where our files are.
 # You don't need to do this if you have these files in
 # your path
@@ -16,7 +18,7 @@ add_executable(pong src/main.cpp)
 
 # tell the compiler that we want to link and use the SDL2
 # library.
-target_link_libraries(pong PRIVATE SDL2)
+target_link_libraries(pong PRIVATE SDL2 SDL2_ttf)
 
 target_sources(
   pong PRIVATE
@@ -25,6 +27,7 @@ target_sources(
   src/Player.cpp
   src/Game.cpp
   src/GameObject.cpp
+  src/Font.cpp
   src/Pad.cpp
   src/Draw.cpp
   src/Math.cpp
@@ -32,3 +35,5 @@ target_sources(
   src/collision.cpp
   src/main.cpp
 )
+
+add_compile_options(-g -Wall)
