@@ -4,7 +4,7 @@
 #include <stdlib.h>
 
 extern Game* game;
-Font::Font(const char* font_path, const char* text, int font_size, SDL_Color color) {
+Font::Font(const char* font_path, const char* text, int font_size, SDL_Color color) : texture(0), surface(0) {
   this->font_path = (char*)calloc(strlen(font_path)+1, sizeof(char));
   strcpy(this->font_path, font_path);
 

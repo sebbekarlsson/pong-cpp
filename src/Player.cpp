@@ -9,7 +9,7 @@ Player::Player(float x, float y) : Pad(x, y) {}
 void Player::update() {
   Keyboard *keyboard = game->get_keyboard();
 
-  float speed = 0.1f;
+  float speed = 8.0f;
 
   // move up
   if (keyboard->is_key_pressed(SDL_SCANCODE_UP) &&

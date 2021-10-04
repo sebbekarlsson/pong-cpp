@@ -5,11 +5,15 @@
 #include <SDL2/SDL.h>
 #include <stdio.h>
 #include <time.h>
+#include <PluginManager.hpp>
 
-#define WINDOW_WIDTH 640
-#define WINDOW_HEIGHT 480
+#define WINDOW_WIDTH 640 * 2
+#define WINDOW_HEIGHT 480 * 2
 
 Game *game;
+
+// raise your hand once you have added the plugin manager to main.cpp
+PluginManager* pluginManager;
 
 int main(int argc, char *argv[]) {
   srand (time(NULL));
@@ -31,7 +35,12 @@ int main(int argc, char *argv[]) {
   Keyboard *keyboard = new Keyboard();
 
   game = new Game(WINDOW_WIDTH, WINDOW_HEIGHT, renderer, keyboard);
-  game->reset_ball();
+
+  pluginManager = new PluginManager("./plugins");
+  pluginManager->load_plugins();
+  pluginManager->call_plugins(game);
+
+  game->reset(WIN_NONE);
 
   Player *player = new Player(WINDOW_WIDTH - (32*2), WINDOW_HEIGHT / 2);
   game->add(player);
@@ -39,8 +48,9 @@ int main(int argc, char *argv[]) {
   Enemy *enemy = new Enemy(32, WINDOW_HEIGHT / 2);
   game->add(enemy);
 
+  int32_t b = SDL_GetTicks();
+
   while (true) {
-    SDL_RenderClear(renderer);
 
     // looking for user input
     SDL_Event e;
@@ -58,11 +68,23 @@ int main(int argc, char *argv[]) {
       }
     }
 
-    game->update();
+    int32_t a = SDL_GetTicks();
+    float delta = a - b;
+
+
+    if (delta >= 1000/60.0)
+    {
+        SDL_RenderClear(renderer);
+        b = a;
+        game->update();
+    }
+
+    SDL_RenderClear(renderer);
     game->draw();
+    SDL_RenderPresent(renderer);
+
 
     // update the graphics
-    SDL_RenderPresent(renderer);
   }
 
   // destroying the window and the reference to the renderer

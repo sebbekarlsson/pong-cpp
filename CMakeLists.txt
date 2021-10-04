@@ -2,12 +2,25 @@ cmake_minimum_required(VERSION 3.13.4) # cmake --version
 
 project(pong)
 
+# file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/plugins DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
-include_directories(include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 add_compile_options(-g -Wall)
 
-add_executable(pong src/main.cpp)
+file(GLOB sourcefiles ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
+add_executable(pong ${sourcefiles})
+add_library(ponginterface SHARED ${sourcefiles})
+
+
+target_include_directories(ponginterface
+  PUBLIC
+  $<INSTALL_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  ${CMAKE_CURRENT_BINARY_DIR}/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
 
 # tell the compiler where our files are.
 # You don't need to do this if you have these files in
@@ -18,22 +31,16 @@ add_executable(pong src/main.cpp)
 
 # tell the compiler that we want to link and use the SDL2
 # library.
-target_link_libraries(pong PRIVATE SDL2 SDL2_ttf)
+target_link_libraries(pong PUBLIC SDL2 SDL2_ttf)
 
-target_sources(
-  pong PRIVATE
-  src/Ball.cpp
-  src/Enemy.cpp
-  src/Player.cpp
-  src/Game.cpp
-  src/GameObject.cpp
-  src/Font.cpp
-  src/Pad.cpp
-  src/Draw.cpp
-  src/Math.cpp
-  src/Keyboard.cpp
-  src/collision.cpp
-  src/main.cpp
-)
+# If Unix
+target_link_libraries(pong PUBLIC dl)
+IF(WIN32)
+  target_link_libraries(pong PUBLIC Kernel32)
+ENDIF()
 
-add_compile_options(-g -Wall)
+
+
+# Once you've confirmed things
+# are working,
+# Raise your hand

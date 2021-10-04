@@ -8,7 +8,8 @@
 
 typedef enum {
     WIN_PLAYER,
-    WIN_ENEMY
+    WIN_ENEMY,
+    WIN_NONE
 } WinType;
 
 class Game {

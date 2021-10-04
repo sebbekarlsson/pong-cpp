@@ -1,7 +1,7 @@
 #include <Game.hpp>
 #include <Ball.hpp>
 
-#define LOCK_TIME 2500
+#define LOCK_TIME (1000 / 60) * 3
 
 Game::Game(int width, int height, SDL_Renderer *renderer, Keyboard *keyboard)
   : width(width),
@@ -44,21 +44,21 @@ void Game::reset(WinType winner) {
   char tmpstr[256];
 
   if (winner == WIN_PLAYER) {
-    printf("Player won!\n");
     this->player_score += 1;
+  } else if (winner == WIN_ENEMY) {
+    this->enemy_score += 1;
+  }
 
+  if (this->font_player != 0) {
     sprintf(tmpstr, "%d", this->player_score);
     this->font_player->set_text(tmpstr, {255, 255, 255, 255});
+  }
 
-  } else {
-    printf("Enemy won!\n");
-    this->enemy_score += 1;
-
+  if (this->font_enemy != 0) {
     sprintf(tmpstr, "%d", this->enemy_score);
     this->font_enemy->set_text(tmpstr, {255, 255, 255, 255});
   }
-  printf("Player: %d\n", this->player_score);
-  printf("Enemy: %d\n", this->enemy_score);
+
   this->lock();
   this->reset_ball();
 }
@@ -125,10 +125,10 @@ void Game::update() {
  * call their draw method. */
 void Game::draw() {
   if (this->font_enemy == 0) {
-    this->font_enemy = new Font("./assets/VT323-Regular.ttf", "5", 48, {255, 255, 255, 255});
+    this->font_enemy = new Font("./assets/VT323-Regular.ttf", "0", 48, {255, 255, 255, 255});
   }
   if (this->font_player == 0) {
-    this->font_player = new Font("./assets/VT323-Regular.ttf", "2", 48, {255, 255, 255, 255});
+    this->font_player = new Font("./assets/VT323-Regular.ttf", "0", 48, {255, 255, 255, 255});
   }
 
   // draw enemy score
